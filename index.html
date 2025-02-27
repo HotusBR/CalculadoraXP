@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora XP - Heartwood Online</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #0d1321;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .container {
+            background: #1e2a44;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 450px;
+            position: relative;
+            transition: background 0.3s;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        .header img {
+            width: 50px;
+            height: 50px;
+            margin-right: 15px;
+        }
+        .title-group {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: #ededed;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .subtitle {
+            font-size: 18px;
+            font-weight: 400;
+            color: #a0b0d0;
+            letter-spacing: 0.5px;
+        }
+        label {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 5px;
+            color: #a0b0d0;
+        }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            background-color: #2a3757;
+            color: #ffffff;
+            text-align: center;
+            box-sizing: border-box;
+            transition: background-color 0.3s;
+        }
+        input::placeholder {
+            color: #a0b0d0;
+        }
+        input:hover, select:hover {
+            background-color: #303f63;
+        }
+        input:focus, select:focus {
+            background-color: #35466b;
+            outline: none;
+        }
+        select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="white" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 30px;
+            cursor: pointer;
+        }
+        select:hover {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="rgba(255, 255, 255, 0.7)" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>');
+        }
+        .level-container, .xp-container, .button-container {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+        .level-container div, .xp-container div, .button-container button {
+            flex: 1;
+        }
+        .xp-minute-group {
+            display: flex;
+            flex-direction: column;
+        }
+        .error {
+            color: #ff6b6b;
+            font-size: 12px;
+            height: 18px;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s, border-color 0.3s;
+            margin: 10px 0;
+        }
+        #btnCalcular {
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+        }
+        #btnCalcular:hover {
+            background-color: #357abd;
+        }
+        #btnCalcular:disabled {
+            background-color: #5a6a8a;
+            cursor: not-allowed;
+        }
+        #btnLimpar {
+            background-color: transparent;
+            color: #ff6b6b;
+            border: 2px solid #ff6b6b;
+        }
+        #btnLimpar:hover {
+            border-color: #ff8787;
+            color: #ff8787;
+        }
+        #resultados {
+            margin-top: 20px;
+            display: none;
+            background: #2a3757;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        #resultados h3 {
+            margin: 10px 0;
+            font-size: 18px;
+            color: #e0e0e0;
+        }
+        #resultados strong {
+            color: #ffffff;
+        }
+        #resultados span.result-value {
+            color: #a0b0d0;
+        }
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #a0b0d0;
+        }
+        @media (max-width: 500px) {
+            .container {
+                padding: 20px;
+            }
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .header img {
+                margin-right: 0;
+                margin-bottom: 5px;
+            }
+            .logo {
+                font-size: 24px;
+            }
+            .subtitle {
+                font-size: 16px;
+            }
+            input, select, button {
+                font-size: 14px;
+                padding: 10px;
+            }
+            select {
+                background-position: right 10px center;
+                padding-right: 25px;
+            }
+            .level-container, .xp-container, .button-container {
+                flex-direction: column;
+                gap: 0;
+            }
+            .footer {
+                font-size: 10px;
+            }
+        }
+        /* Estilos alterados para o botão e modo claro */
+        .theme-toggle {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 50%;
+            background-color: transparent;
+            color: #e0e0e0;
+            font-size: 18px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .theme-toggle:hover {
+            color: #ffffff;
+        }
+        body.light {
+            background-color: #f5f5f5;
+            color: #1a1a1a;
+        }
+        .light .container {
+            background: #ffffff;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        .light .logo {
+            color: #1a1a1a;
+        }
+        .light .subtitle {
+            color: #666666;
+        }
+        .light label {
+            color: #666666;
+        }
+        .light input, .light select {
+            background-color: #e8ecef;
+            color: #1a1a1a;
+        }
+        .light input::placeholder {
+            color: #999999;
+        }
+        .light input:hover, .light select:hover {
+            background-color: #dde2e6;
+        }
+        .light input:focus, .light select:focus {
+            background-color: #d1d8dd;
+        }
+        .light select {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="black" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>');
+        }
+        .light select:hover {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="rgba(0, 0, 0, 0.7)" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>');
+        }
+        .light .error {
+            color: #d32f2f;
+        }
+        .light #btnCalcular {
+            background-color: #1976d2;
+        }
+        .light #btnCalcular:hover {
+            background-color: #115293;
+        }
+        .light #btnCalcular:disabled {
+            background-color: #b0bec5;
+        }
+        .light #btnLimpar {
+            color: #d32f2f;
+            border-color: #d32f2f;
+        }
+        .light #btnLimpar:hover {
+            color: #f44336;
+            border-color: #f44336;
+        }
+        .light #resultados {
+            background: #e8ecef;
+        }
+        .light #resultados h3 {
+            color: #1a1a1a;
+        }
+        .light #resultados strong {
+            color: #1a1a1a;
+        }
+        .light #resultados span.result-value {
+            color: #666666;
+        }
+        .light .footer {
+            color: #666666;
+        }
+        .light .theme-toggle {
+            color: #1a1a1a;
+        }
+        .light .theme-toggle:hover {
+            color: #666666;
+        }
+        /* Estilos para o tooltip */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: help;
+        }
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 202px;
+            background-color: rgba(74, 144, 226, 0.75);
+            color: #f0f0f0;
+            text-align: center;
+            border-radius: 6px;
+            padding: 8px;
+            position: absolute;
+            z-index: 1;
+            bottom: 120%;
+            left: 50%;
+            margin-left: -109px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 11px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+        .light .tooltip .tooltiptext {
+            background-color: rgba(25, 118, 210, 0.75);
+            color: #ffffff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button class="theme-toggle" onclick="toggleTheme()">◑</button>
+        <div class="header">
+            <img src="Icon_Audaz.png" alt="Logo Heartwood Online" class="logo-icon">
+            <div class="title-group">
+                <div class="logo">Calculadora XP</div>
+                <div class="subtitle">Heartwood Online</div>
+            </div>
+        </div>
+
+        <div class="level-container">
+            <div>
+                <label>Nível Atual:</label>
+                <input type="text" id="lvlAtual" placeholder="Digite seu nível atual" onkeypress="return apenasNumeros(event)" oninput="validarCampos()">
+                <p id="erroLvlAtual" class="error"></p>
+            </div>
+            <div>
+                <label>Nível Desejado:</label>
+                <input type="text" id="lvlDesejado" placeholder="Digite o nível desejado" onkeypress="return apenasNumeros(event)" oninput="validarCampos()">
+                <p id="erroLvlDesejado" class="error"></p>
+            </div>
+        </div>
+
+        <div class="xp-container">
+            <div>
+                <label>XP Atual:</label>
+                <input type="text" id="xpAtual" placeholder="Digite seu XP atual" onkeypress="return apenasNumeros(event)" oninput="validarCampos()">
+                <p id="erroXpAtual" class="error"></p>
+            </div>
+            <div class="xp-minute-group">
+                <div class="tooltip">
+                    <label>XP por minuto: ⌊ℹ︎⌉</label>
+                    <span class="tooltiptext">Marque seu XP Atual, cronometre um minuto e depois subtraia do XP final.</span>
+                </div>
+                <select id="xpMinuto" onchange="limparCustom(); validarCampos()">
+                    <option value="">Selecione ou digite</option>
+                    <option value="500">500 XP/min (Lento)</option>
+                    <option value="1000">1000 XP/min (Médio)</option>
+                    <option value="1500">1500 XP/min (Rápido)</option>
+                    <option value="2000">2000 XP/min (Veloz)</option>
+                </select>
+                <input type="text" id="xpMinutoCustom" placeholder="Ou digite um valor" onkeypress="return apenasNumeros(event)" oninput="selecionarCustom(this); validarCampos()">
+                <p id="erroXpMinuto" class="error"></p>
+            </div>
+        </div>
+
+        <div class="button-container">
+            <button id="btnCalcular" onclick="calcularXP()" disabled>Calcular</button>
+            <button id="btnLimpar" onclick="limparCampos()">Limpar</button>
+        </div>
+
+        <div id="resultados">
+            <h3 id="xpNecessario"></h3>
+            <h3 id="tempoEstimado"></h3>
+        </div>
+
+        <div class="footer">
+            © 2025 Guilda Audaz [HWO] - Desenvolvido por Hotus
+        </div>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            document.body.classList.toggle('light');
+            const button = document.querySelector('.theme-toggle');
+            button.textContent = document.body.classList.contains('light') ? '◐' : '◑';
+        }
+
+        function apenasNumeros(event) {
+            let charCode = event.which ? event.which : event.keyCode;
+            return (charCode >= 48 && charCode <= 57);
+        }
+
+        function selecionarCustom(input) {
+            if (input.value.length > 0) {
+                document.getElementById("xpMinuto").value = "";
+            }
+        }
+
+        function limparCustom() {
+            document.getElementById("xpMinutoCustom").value = "";
+        }
+
+        function validarCampos() {
+            let lvlAtual = parseInt(document.getElementById("lvlAtual").value);
+            let lvlDesejado = parseInt(document.getElementById("lvlDesejado").value);
+            let xpAtual = parseInt(document.getElementById("xpAtual").value);
+            let xpMinutoSelect = parseInt(document.getElementById("xpMinuto").value);
+            let xpMinutoCustom = parseInt(document.getElementById("xpMinutoCustom").value);
+            let xpMinuto = xpMinutoCustom || xpMinutoSelect || 0;
+
+            let erroLvlAtual = document.getElementById("erroLvlAtual");
+            let erroLvlDesejado = document.getElementById("erroLvlDesejado");
+            let erroXpAtual = document.getElementById("erroXpAtual");
+            let erroXpMinuto = document.getElementById("erroXpMinuto");
+            let botao = document.getElementById("btnCalcular");
+            let valido = true;
+
+            erroLvlAtual.innerText = "";
+            erroLvlDesejado.innerText = "";
+            erroXpAtual.innerText = "";
+            erroXpMinuto.innerText = "";
+
+            if (isNaN(lvlAtual) || lvlAtual <= 0) {
+                erroLvlAtual.innerText = "O nível atual deve ser maior que zero.";
+                valido = false;
+            }
+            if (isNaN(lvlDesejado) || lvlDesejado <= 0 || lvlAtual >= lvlDesejado) {
+                erroLvlDesejado.innerText = "Nível desejado deve ser maior que o atual.";
+                valido = false;
+            }
+            if (isNaN(xpAtual) || xpAtual < 0) {
+                erroXpAtual.innerText = "XP atual deve ser um número positivo.";
+                valido = false;
+            }
+            if (xpMinuto <= 0) {
+                erroXpMinuto.innerText = "Selecione ou digite um XP por minuto válido.";
+                valido = false;
+            }
+
+            botao.disabled = !valido;
+            document.getElementById("resultados").style.display = "none";
+        }
+
+        function calcularXP() {
+            let lvlAtual = parseInt(document.getElementById("lvlAtual").value);
+            let lvlDesejado = parseInt(document.getElementById("lvlDesejado").value);
+            let xpAtual = parseInt(document.getElementById("xpAtual").value);
+            let xpMinutoSelect = parseInt(document.getElementById("xpMinuto").value);
+            let xpMinutoCustom = parseInt(document.getElementById("xpMinutoCustom").value);
+            let xpMinuto = xpMinutoCustom || xpMinutoSelect;
+
+            let xpNecessario = Math.round(
+                ((206 * ((lvlDesejado - 1) ** 3) / 3) + (206 * ((lvlDesejado - 1) ** 2)) + (676 * ((lvlDesejado - 1) / 3))) -
+                ((206 * ((lvlAtual - 1) ** 3) / 3) + (206 * ((lvlAtual - 1) ** 2)) + (676 * ((lvlAtual - 1) / 3))) -
+                xpAtual
+            );
+
+            document.getElementById("xpNecessario").innerHTML = "<strong>XP Necessário:</strong> <span class='result-value'>" + xpNecessario.toLocaleString("pt-BR") + "</span>";
+            let minutosTotais = xpNecessario / xpMinuto;
+            document.getElementById("tempoEstimado").innerHTML = "<strong>Tempo estimado:</strong> <span class='result-value'>" + converterMinutos(minutosTotais) + "</span>";
+            document.getElementById("resultados").style.display = "block";
+        }
+
+        function converterMinutos(minutosTotais) {
+            if (minutosTotais <= 0) return "Tempo inválido";
+            let diasTotais = minutosTotais / 1440;
+            let anos = Math.floor(diasTotais / 365);
+            let meses = Math.floor((diasTotais % 365) / 30);
+            let dias = Math.floor((diasTotais % 365) % 30);
+            let horas = Math.floor((diasTotais % 1) * 24);
+            let minutos = Math.floor(((diasTotais % 1) * 24 - horas) * 60);
+
+            let resultado = [];
+            if (anos > 0) resultado.push(`${anos} ${anos === 1 ? "ano" : "anos"}`);
+            if (meses > 0) resultado.push(`${meses} ${meses === 1 ? "mês" : "meses"}`);
+            if (dias > 0) resultado.push(`${dias} ${dias === 1 ? "dia" : "dias"}`);
+            if (horas > 0) resultado.push(`${horas} ${horas === 1 ? "hora" : "horas"}`);
+            if (minutos > 0) resultado.push(`${minutos} ${minutos === 1 ? "minuto" : "minutos"}`);
+            return resultado.join(", ");
+        }
+
+        function limparCampos() {
+            document.getElementById("lvlAtual").value = "";
+            document.getElementById("lvlDesejado").value = "";
+            document.getElementById("xpAtual").value = "";
+            document.getElementById("xpMinuto").value = "";
+            document.getElementById("xpMinutoCustom").value = "";
+            document.getElementById("erroLvlAtual").innerText = "";
+            document.getElementById("erroLvlDesejado").innerText = "";
+            document.getElementById("erroXpAtual").innerText = "";
+            document.getElementById("erroXpMinuto").innerText = "";
+            document.getElementById("resultados").style.display = "none";
+            document.getElementById("btnCalcular").disabled = true;
+        }
+    </script>
+</body>
+</html>
