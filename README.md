@@ -2,7 +2,7 @@
 
 Bem-vindo à **Calculadora de XP** para o jogo *Heartwood Online*! Esta é uma ferramenta simples e prática para calcular o XP necessário e o tempo estimado para subir de nível no jogo. Desenvolvida pela Guilda Audaz [HWO], ela é ideal para jogadores que querem planejar sua progressão.
 
-![Calculadora de XP](Screenshot.png)
+![Calculadora de XP](assets/Screenshot.png)
 
 
 ## Como Usar
