@@ -48,7 +48,7 @@ Se quiser rodar localmente:
    
 
 ## Releases
-v1.0.0: Versão inicial [atual].
+   - **v1.0.0**: [2025.02.28-1] Versão Inicial - Calculadora de XP (atual).
 
 
 ## Contribuição
