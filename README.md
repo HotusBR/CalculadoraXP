@@ -44,5 +44,5 @@ Se quiser rodar localmente:
 Quer sugerir melhorias? Abra uma **issue** ou envie um **pull request**! Todas as ideias são bem-vindas.
 
 ## Créditos
-Desenvolvido por **Hotus** para a **Guilda Audaz [HWO]**.
-© 2025 Guilda Audaz [HWO].
+- Desenvolvido por **Hotus** para a **Guilda Audaz [HWO]**.
+- © 2025 Guilda Audaz [HWO].
