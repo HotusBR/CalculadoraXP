@@ -47,6 +47,10 @@ Se quiser rodar localmente:
 2. Abra o arquivo index.html em um navegador.
    
 
+## Releases
+v1.0.0: Versão inicial [atual].
+
+
 ## Contribuição
 Quer sugerir melhorias? Abra uma **issue** ou envie um **pull request**! Todas as ideias são bem-vindas.
 
