@@ -5,14 +5,17 @@ Bem-vindo à **Calculadora de XP** para o jogo *Heartwood Online*! Esta é uma f
 ## Como Usar
 
 1. Acesse o site em: [https://hotusbr.github.io/CalculadoraXP/](https://hotusbr.github.io/CalculadoraXP/)
+
 2. Insira os seguintes dados:
    - **Nível Atual**: Seu nível atual no jogo.
    - **Nível Desejado**: O nível que você quer alcançar.
    - **XP Atual**: A quantidade de XP que você já tem.
    - **XP por Minuto**: Quanto XP você ganha por minuto (selecione uma opção ou digite um valor personalizado).
+
 3. Clique em **Calcular** para ver:
    - O XP total necessário para atingir o nível desejado.
    - O tempo estimado com base no seu XP por minuto.
+
 4. Use o botão **Limpar** para recomeçar.
 
 **Dica**: Passe o mouse sobre "XP por minuto" para ver como calcular seu XP/min!
@@ -34,3 +37,12 @@ Se quiser rodar localmente:
 1. Clone este repositório:
    ```bash
    git clone https://github.com/hotusbr/CalculadoraXP.git
+
+2. Abra o arquivo index.html em um navegador.
+   
+## Contribuição
+Quer sugerir melhorias? Abra uma **issue** ou envie um **pull request**! Todas as ideias são bem-vindas.
+
+## Créditos
+Desenvolvido por **Hotus** para a **Guilda Audaz [HWO]**.
+© 2025 Guilda Audaz [HWO].
